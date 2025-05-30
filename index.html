@@ -20,6 +20,7 @@
     <ul id="messages"></ul>
     <form id="form" action="">
       <input id="input" autocomplete="off" /><button>Send</button>
+      <button id="toggle-btn">Disconnect</button>
     </form>
   </body>
 </html>
@@ -38,7 +39,18 @@
       input.value = '';
     }
   });
+  const toggleButton = document.getElementById('toggle-btn');
 
+  toggleButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (socket.connected) {
+      toggleButton.innerText = 'Connect';
+      socket.disconnect();
+    } else {
+      toggleButton.innerText = 'Disconnect';
+      socket.connect();
+    }
+  });
   socket.on('chat message', (msg) => {
     const item = document.createElement('li');
     item.textContent = msg;
